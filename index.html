@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="af">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laerskool Menlopark Bywoningsregister</title>
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTQiIGZpbGw9IiMwYzNmMWMiLz4KPHRleHQgeD0iMTYiIHk9IjIwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmQ3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJib2xkIj5MPC90ZXh0Pgo8L3N2Zz4K">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c3f1c 0%, #2d5016 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .header-logo {
+            text-align: center;
+            padding: 30px 20px 20px;
+            position: relative;
+        }
+        
+        .logo-symbol {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            background: linear-gradient(45deg, #0c3f1c, #2d5016);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #ffd700;
+        }
+        
+        .logo-symbol::before {
+            content: "🌿";
+            font-size: 24px;
+            color: #ffd700;
+        }
+        
+        .school-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0c3f1c;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        /* Login Screen */
+        .login-section {
+            padding: 0 40px 40px;
+        }
+        
+        .login-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0c3f1c;
+            text-align: center;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #0c3f1c;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(12, 63, 28, 0.1);
+        }
+        
+        .btn-login {
+            width: 100%;
+            background: linear-gradient(45deg, #0c3f1c, #2d5016);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(12, 63, 28, 0.3);
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #0c3f1c;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .forgot-password {
+            text-align: center;
+            margin-top: 15px;
+            color: #0c3f1c;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
+        /* Attendance Form */
+        .attendance-form {
+            padding: 40px;
+            display: none;
+        }
+        
+        .welcome-message {
+            background: linear-gradient(45deg, #0c3f1c, #2d5016);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .date-selector {
+            margin-bottom: 30px;
+        }
+        
+        .date-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .date-btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 12px 8px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .date-btn.active {
+            background: #0c3f1c;
+            color: white;
+            border-color: #0c3f1c;
+        }
+        
+        .date-btn:hover {
+            border-color: #0c3f1c;
+        }
+        
+        .time-section {
+            margin-bottom: 25px;
+        }
+        
+        .time-section h3 {
+            color: #0c3f1c;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .time-inputs {
+            display: flex;
+            gap: 15px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .time-group {
+            flex: 1;
+        }
+        
+        .time-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        
+        .time-picker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .time-select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            min-width: 60px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #0c3f1c, #2d5016);
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 30px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(12, 63, 28, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .status-message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .already-submitted {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        /* Admin Section */
+        .admin-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .admin-title {
+            color: #0c3f1c;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        
+        .admin-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #17a2b8, #138496);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .login-section, .attendance-form {
+                padding: 20px;
+            }
+            
+            .time-inputs {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .date-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header with Logo -->
+        <div class="header-logo">
+            <div class="logo-symbol"></div>
+            <h1 class="school-title">Laerskool Menlopark</h1>
+            <p class="subtitle">Bywoningsregister</p>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="loginScreen" class="login-section">
+            <h2 class="login-title">Meld Hier Aan</h2>
+            
+            <div class="form-group">
+                <input type="text" id="nameInput" placeholder="Naam" required>
+            </div>
+            
+            <div class="form-group">
+                <input type="email" id="emailInput" placeholder="E-pos adres" required>
+            </div>
+            
+            <div class="form-group">
+                <input type="password" id="passwordInput" placeholder="Wagwoord" required>
+            </div>
+            
+            <button class="btn-login" onclick="login()">MELD AAN</button>
+            
+            <div class="register-link">Registreer hier</div>
+            <div class="forgot-password" onclick="showTempPassword()">Wagwoord vergeet?</div>
+            
+            <div id="loginMessage" class="status-message"></div>
+        </div>
+
+        <!-- Attendance Form -->
+        <div id="attendanceForm" class="attendance-form">
+            <div class="welcome-message">
+                <button class="logout-btn" onclick="logout()">Meld Af</button>
+                <h3 id="welcomeName">Welkom Onderwyser</h3>
+                <p id="currentDate"></p>
+            </div>
+
+            <div id="alreadySubmitted" class="already-submitted" style="display: none;">
+                ✅ Jy het reeds vir hierdie datum ingevul
+            </div>
+
+            <!-- Date Selection -->
+            <div class="date-selector">
+                <label><strong>Datum:</strong></label>
+                <div class="date-buttons" id="dateButtons">
+                    <!-- Date buttons will be generated here -->
+                </div>
+            </div>
+
+            <!-- Time Sections -->
+            <div class="time-section">
+                <h3>Skooltyd in:</h3>
+                <div class="time-inputs">
+                    <div class="time-group">
+                        <div class="time-picker">
+                            <select class="time-select" id="schoolInHour">
+                                <option value="05">05</option>
+                                <option value="06" selected>06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                            </select>
+                            <span>:</span>
+                            <select class="time-select" id="schoolInMin">
+                                <option value="00">00</option>
+                                <option value="15">15</option>
+                                <option value="30" selected>30</option>
+                                <option value="45">45</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-section">
+                <h3>Skooltyd uit:</h3>
+                <div class="time-inputs">
+                    <div class="time-group">
+                        <div class="time-picker">
+                            <select class="time-select" id="schoolOutHour">
+                                <option value="13">13</option>
+                                <option value="14" selected>14</option>
+                                <option value="15">15</option>
+                            </select>
+                            <span>:</span>
+                            <select class="time-select" id="schoolOutMin">
+                                <option value="00" selected>00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-section">
+                <h3>Muitemuurs in:</h3>
+                <div class="time-inputs">
+                    <div class="time-group">
+                        <div class="time-picker">
+                            <select class="time-select" id="extraInHour">
+                                <option value="13">13</option>
+                                <option value="14" selected>14</option>
+                                <option value="15">15</option>
+                            </select>
+                            <span>:</span>
+                            <select class="time-select" id="extraInMin">
+                                <option value="00">00</option>
+                                <option value="15">15</option>
+                                <option value="30" selected>30</option>
+                                <option value="45">45</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-section">
+                <h3>Muitemuurs uit:</h3>
+                <div class="time-inputs">
+                    <div class="time-group">
+                        <div class="time-picker">
+                            <select class="time-select" id="extraOutHour">
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15" selected>15</option>
+                                <option value="16">16</option>
+                            </select>
+                            <span>:</span>
+                            <select class="time-select" id="extraOutMin">
+                                <option value="00" selected>00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-section">
+                <h3>Akademiese tyd in:</h3>
+                <div class="time-inputs">
+                    <div class="time-group">
+                        <div class="time-picker">
+                            <select class="time-select" id="academicInHour">
+                                <option value="13">13</option>
+                                <option value="14" selected>14</option>
+                                <option value="15">15</option>
+                            </select>
+                            <span>:</span>
+                            <select class="time-select" id="academicInMin">
+                                <option value="00">00</option>
+                                <option value="15">15</option>
+                                <option value="30" selected>30</option>
+                                <option value="45">45</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-section">
+                <h3>Akademiese tyd uit:</h3>
+                <div class="time-inputs">
+                    <div class="time-group">
+                        <div class="time-picker">
+                            <select class="time-select" id="academicOutHour">
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15" selected>15</option>
+                                <option value="16">16</option>
+                            </select>
+                            <span>:</span>
+                            <select class="time-select" id="academicOutMin">
+                                <option value="00" selected>00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="submit-btn" id="submitBtn" onclick="submitAttendance()">STUUR IN</button>
+
+            <div id="attendanceMessage" class="status-message"></div>
+
+            <!-- Admin Section -->
+            <div id="adminSection" class="admin-section" style="display: none;">
+                <h3 class="admin-title">Organiseerder Funksies</h3>
+                <button class="admin-btn" onclick="exportTodayToExcel()">📊 Eksporteer Vandag na Excel</button>
+                <button class="admin-btn" onclick="exportAllToExcel()">📋 Eksporteer Alles na Excel</button>
+                <button class="admin-btn" onclick="viewSubmissions()">👀 Bekyk Alle Inskrywings</button>
+                <button class="admin-btn" onclick="clearOldData()">🗑️ Maak Ou Data Skoon</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const ADMIN_EMAILS = ['erick.snyman@menlolaer.co.za'];
+        const TEMP_PASSWORD = 'menlo2025';
+        
+        let currentUser = null;
+        let selectedDate = new Date().toISOString().split('T')[0];
+        
+        // Initialize app
+        function init() {
+            generateDateButtons();
+            updateCurrentDate();
+            
+            // Check if user is logged in
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showAttendanceForm();
+            }
+        }
+        
+        function generateDateButtons() {
+            const dateButtons = document.getElementById('dateButtons');
+            const today = new Date();
+            
+            // Generate 7 days: 3 days before, today, 3 days after
+            for (let i = -3; i <= 3; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() + i);
+                
+                const dateStr = date.toISOString().split('T')[0];
+                const day = date.getDate().toString().padStart(2, '0');
+                const month = date.toLocaleDateString('af-ZA', { month: 'short' });
+                
+                const button = document.createElement('button');
+                button.className = 'date-btn';
+                button.innerHTML = `${day}<br>${month}`;
+                button.onclick = () => selectDate(dateStr, button);
+                
+                if (i === 0) {
+                    button.classList.add('active');
+                    selectedDate = dateStr;
+                }
+                
+                dateButtons.appendChild(button);
+            }
+        }
+        
+        function selectDate(date, button) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.date-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            button.classList.add('active');
+            selectedDate = date;
+            
+            // Check if already submitted for this date
+            checkAlreadySubmitted();
+        }
+        
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric'
+            };
+            document.getElementById('currentDate').textContent = 
+                now.toLocaleDateString('af-ZA', options);
+        }
+        
+        function showTempPassword() {
+            alert(`Tydelike Wagwoord: ${TEMP_PASSWORD}\n\nKontak Erick Snyman vir 'n permanente wagwoord.`);
+        }
+        
+        function login() {
+            const name = document.getElementById('nameInput').value.trim();
+            const email = document.getElementById('emailInput').value.trim().toLowerCase();
+            const password = document.getElementById('passwordInput').value;
+            
+            if (!name || !email || !password) {
+                showMessage('loginMessage', 'Vul asseblief alle velde in', 'error');
+                return;
+            }
+            
+            if (!email.includes('@')) {
+                showMessage('loginMessage', 'Voer \'n geldige e-pos adres in', 'error');
+                return;
+            }
+            
+            if (password !== TEMP_PASSWORD && password.length < 4) {
+                showMessage('loginMessage', 'Ongeldige wagwoord', 'error');
+                return;
+            }
+            
+            // Create user
+            currentUser = {
+                name: name,
+                email: email,
+                isAdmin: ADMIN_EMAILS.includes(email)
+            };
+            
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            showAttendanceForm();
+        }
+        
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('attendanceForm').style.display = 'none';
+            
+            // Clear form
+            document.getElementById('nameInput').value = '';
+            document.getElementById('emailInput').value = '';
+            document.getElementById('passwordInput').value = '';
+        }
+        
+        function showAttendanceForm() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('attendanceForm').style.display = 'block';
+            document.getElementById('welcomeName').textContent = `Welkom ${currentUser.name}`;
+            
+            if (currentUser.isAdmin) {
+                document.getElementById('adminSection').style.display = 'block';
+            }
+            
+            checkAlreadySubmitted();
+        }
+        
+        function checkAlreadySubmitted() {
+            const submissions = JSON.parse(localStorage.getItem('attendanceSubmissions') || '[]');
+            const key = `${currentUser.email}_${selectedDate}`;
+            const alreadySubmitted = submissions.some(sub => sub.key === key);
+            
+            const submittedDiv = document.getElementById('alreadySubmitted');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (alreadySubmitted) {
+                submittedDiv.style.display = 'block';
+                submitBtn.textContent = 'HERSTEL INSKRYWING';
+                submitBtn.style.background = 'linear-gradient(45deg, #ffc107, #e0a800)';
+            } else {
+                submittedDiv.style.display = 'none';
+                submitBtn.textContent = 'STUUR IN';
+                submitBtn.style.background = 'linear-gradient(45deg, #0c3f1c, #2d5016)';
+            }
+        }
+        
+        function submitAttendance() {
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="loading"></div>Besig om te stoor...';
+            
+            try {
+                const submission = {
+                    key: `${currentUser.email}_${selectedDate}`,
+                    name: currentUser.name,
+                    email: currentUser.email,
+                    date: selectedDate,
+                    schoolTimeIn: `${document.getElementById('schoolInHour').value}:${document.getElementById('schoolInMin').value}`,
+                    schoolTimeOut: `${document.getElementById('schoolOutHour').value}:${document.getElementById('schoolOutMin').value}`,
+                    extraTimeIn: `${document.getElementById('extraInHour').value}:${document.getElementById('extraInMin').value}`,
+                    extraTimeOut: `${document.getElementById('extraOutHour').value}:${document.getElementById('extraOutMin').value}`,
+                    academicTimeIn: `${document.getElementById('academicInHour').value}:${document.getElementById('academicInMin').value}`,
+                    academicTimeOut: `${document.getElementById('academicOutHour').value}:${document.getElementById('academicOutMin').value}`,
+                    timestamp: new Date().toISOString(),
+                    submittedAt: new Date().toLocaleString('af-ZA')
+                };
+                
+                let submissions = JSON.parse(localStorage.getItem('attendanceSubmissions') || '[]');
+                
+                // Remove existing submission for this date/user
+                submissions = submissions.filter(sub => sub.key !== submission.key);
+                
+                // Add new submission
+                submissions.push(submission);
+                
+                localStorage.setItem('attendanceSubmissions', JSON.stringify(submissions));
+                
+                showMessage('attendanceMessage', 'Bywoning suksesvol gestoor!', 'success');
+                checkAlreadySubmitted();
+                
+            } catch (error) {
+                showMessage('attendanceMessage', 'Fout tydens stoor van data', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'STUUR IN';
+            }
+        }
+        
+        function showMessage(elementId, message, type) {
+            const messageEl = document.getElementById(elementId);
+            messageEl.textContent = message;
+            messageEl.className = `status-message status-${type}`;
+            messageEl.style.display = 'block';
+            
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 5000);
+        }
+        
+        function exportTodayToExcel() {
+            const today = new Date().toISOString().split('T')[0];
+            exportToExcel(today);
+        }
+        
+        function exportAllToExcel() {
+            exportToExcel();
+        }
+        
+        function exportToExcel(filterDate = null) {
+            const submissions = JSON.parse(localStorage.getItem('attendanceSubmissions') || '[]');
+            
+            let dataToExport = submissions;
+            if (filterDate) {
+                dataToExport = submissions.filter(sub => sub.date === filterDate);
+            }
+            
+            if (dataToExport.length === 0) {
+                alert('Geen data om te eksporteer nie');
+                return;
+            }
+            
+            const headers = [
+                'Naam', 'E-pos', 'Datum', 'Skooltyd In', 'Skooltyd Uit', 
+                'Muitemuurs In', 'Muitemuurs Uit', 'Akademiese In', 'Akademiese Uit', 
+                'Ingestuur Op'
+            ];
+            
+            const csvContent = [
+                headers.join(','),
+                ...dataToExport.map(sub => [
+                    `"${sub.name}"`,
+                    `"${sub.email}"`,
+                    `"${sub.date}"`,
+                    `"${sub.schoolTimeIn}"`,
+                    `"${sub.schoolTimeOut}"`,
+                    `"${sub.extraTimeIn}"`,
+                    `"${sub.extraTimeOut}"`,
+                    `"${sub.academicTimeIn}"`,
+                    `"${sub.academicTimeOut}"`,
+                    `"${sub.submittedAt}"`
+                ].join(','))
+            ].join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            
+            const fileName = filterDate ? 
+                `menlopark_bywoning_${filterDate}.csv` : 
+                `menlopark_bywoning_alle_${new Date().toISOString().split('T')[0]}.csv`;
+            
+            link.download = fileName;
+            link.click();
+            window.URL.revokeObjectURL(url);
+            
+            showMessage('attendanceMessage', `✅ ${dataToExport.length} rekords geëksporteer!`, 'success');
+        }
+        
+        function viewSubmissions() {
+            const submissions = JSON.parse(localStorage.getItem('attendanceSubmissions') || '[]');
+            
+            if (submissions.length === 0) {
+                alert('Geen inskrywings beskikbaar nie');
+                return;
+            }
+            
+            const recent = submissions
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                .slice(0, 10)
+                .map(sub => `${sub.date} - ${sub.name} (${sub.submittedAt})`)
+                .join('\n');
+            
+            alert(`Laaste 10 inskrywings:\n\n${recent}`);
+        }
+        
+        function clearOldData() {
+            if (!confirm('Wis alle data ouer as 30 dae?\n\nHierdie aksie kan nie ongedaan gemaak word nie.')) {
+                return;
+            }
+            
+            const submissions = JSON.parse(localStorage.getItem('attendanceSubmissions') || '[]');
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            const cutoffDate = thirtyDaysAgo.toISOString().split('T')[0];
+            
+            const filtered = submissions.filter(sub => sub.date >= cutoffDate);
+            const removedCount = submissions.length - filtered.length;
+            
+            localStorage.setItem('attendanceSubmissions', JSON.stringify(filtered));
+            
+            alert(`${removedCount} ou rekords verwyder.\n${filtered.length} rekords behou.`);
+        }
+        
+        // Initialize when page loads
+        window.onload = init;
+    </script>
+</body>
+</html>
