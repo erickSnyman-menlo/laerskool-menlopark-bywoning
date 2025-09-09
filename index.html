@@ -109,6 +109,32 @@
             box-shadow: 0 0 0 3px rgba(12, 63, 28, 0.1);
         }
         
+        .password-container {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #666;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .password-toggle:hover {
+            color: #0c3f1c;
+        }
+        
         .btn-login {
             width: 100%;
             background: linear-gradient(45deg, #0c3f1c, #2d5016);
@@ -413,7 +439,12 @@
             </div>
             
             <div class="form-group">
-                <input type="password" id="passwordInput" placeholder="Wagwoord" required>
+                <div class="password-container">
+                    <input type="password" id="passwordInput" placeholder="Wagwoord" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword()" id="togglePasswordBtn">
+                        👁️
+                    </button>
+                </div>
             </div>
             
             <button class="btn-login" onclick="login()">MELD AAN</button>
@@ -451,17 +482,34 @@
                     <div class="time-group">
                         <div class="time-picker">
                             <select class="time-select" id="schoolInHour">
-                                <option value="05">05</option>
                                 <option value="06" selected>06</option>
                                 <option value="07">07</option>
                                 <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
                             </select>
                             <span>:</span>
                             <select class="time-select" id="schoolInMin">
                                 <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
                                 <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
                                 <option value="30" selected>30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
                                 <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
                             </select>
                         </div>
                     </div>
@@ -474,16 +522,29 @@
                     <div class="time-group">
                         <div class="time-picker">
                             <select class="time-select" id="schoolOutHour">
-                                <option value="13">13</option>
-                                <option value="14" selected>14</option>
+                                <option value="13" selected>13</option>
+                                <option value="14">14</option>
                                 <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
                             </select>
                             <span>:</span>
                             <select class="time-select" id="schoolOutMin">
-                                <option value="00" selected>00</option>
+                                <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
                                 <option value="15">15</option>
-                                <option value="30">30</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30" selected>30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
                                 <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
                             </select>
                         </div>
                     </div>
@@ -496,16 +557,29 @@
                     <div class="time-group">
                         <div class="time-picker">
                             <select class="time-select" id="extraInHour">
-                                <option value="13">13</option>
-                                <option value="14" selected>14</option>
+                                <option value="13" selected>13</option>
+                                <option value="14">14</option>
                                 <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
                             </select>
                             <span>:</span>
                             <select class="time-select" id="extraInMin">
                                 <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
                                 <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
                                 <option value="30" selected>30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
                                 <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
                             </select>
                         </div>
                     </div>
@@ -522,13 +596,25 @@
                                 <option value="14">14</option>
                                 <option value="15" selected>15</option>
                                 <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
                             </select>
                             <span>:</span>
                             <select class="time-select" id="extraOutMin">
-                                <option value="00" selected>00</option>
+                                <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
                                 <option value="15">15</option>
-                                <option value="30">30</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30" selected>30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
                                 <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
                             </select>
                         </div>
                     </div>
@@ -544,13 +630,26 @@
                                 <option value="13">13</option>
                                 <option value="14" selected>14</option>
                                 <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
                             </select>
                             <span>:</span>
                             <select class="time-select" id="academicInMin">
                                 <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
                                 <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
                                 <option value="30" selected>30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
                                 <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
                             </select>
                         </div>
                     </div>
@@ -567,13 +666,25 @@
                                 <option value="14">14</option>
                                 <option value="15" selected>15</option>
                                 <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
                             </select>
                             <span>:</span>
                             <select class="time-select" id="academicOutMin">
                                 <option value="00" selected>00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
                                 <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
                                 <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
                                 <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
                             </select>
                         </div>
                     </div>
@@ -723,191 +834,4 @@
             
             // Clear form
             document.getElementById('nameInput').value = '';
-            document.getElementById('emailInput').value = '';
-            document.getElementById('passwordInput').value = '';
-        }
-        
-        function showAttendanceForm() {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('attendanceForm').style.display = 'block';
-            document.getElementById('welcomeName').textContent = `Welkom ${currentUser.name}`;
-            
-            if (currentUser.isAdmin) {
-                document.getElementById('adminSection').style.display = 'block';
-            }
-            
-            checkAlreadySubmitted();
-        }
-        
-        function checkAlreadySubmitted() {
-            const submissions = JSON.parse(localStorage.getItem('attendanceSubmissions') || '[]');
-            const key = `${currentUser.email}_${selectedDate}`;
-            const alreadySubmitted = submissions.some(sub => sub.key === key);
-            
-            const submittedDiv = document.getElementById('alreadySubmitted');
-            const submitBtn = document.getElementById('submitBtn');
-            
-            if (alreadySubmitted) {
-                submittedDiv.style.display = 'block';
-                submitBtn.textContent = 'HERSTEL INSKRYWING';
-                submitBtn.style.background = 'linear-gradient(45deg, #ffc107, #e0a800)';
-            } else {
-                submittedDiv.style.display = 'none';
-                submitBtn.textContent = 'STUUR IN';
-                submitBtn.style.background = 'linear-gradient(45deg, #0c3f1c, #2d5016)';
-            }
-        }
-        
-        function submitAttendance() {
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<div class="loading"></div>Besig om te stoor...';
-            
-            try {
-                const submission = {
-                    key: `${currentUser.email}_${selectedDate}`,
-                    name: currentUser.name,
-                    email: currentUser.email,
-                    date: selectedDate,
-                    schoolTimeIn: `${document.getElementById('schoolInHour').value}:${document.getElementById('schoolInMin').value}`,
-                    schoolTimeOut: `${document.getElementById('schoolOutHour').value}:${document.getElementById('schoolOutMin').value}`,
-                    extraTimeIn: `${document.getElementById('extraInHour').value}:${document.getElementById('extraInMin').value}`,
-                    extraTimeOut: `${document.getElementById('extraOutHour').value}:${document.getElementById('extraOutMin').value}`,
-                    academicTimeIn: `${document.getElementById('academicInHour').value}:${document.getElementById('academicInMin').value}`,
-                    academicTimeOut: `${document.getElementById('academicOutHour').value}:${document.getElementById('academicOutMin').value}`,
-                    timestamp: new Date().toISOString(),
-                    submittedAt: new Date().toLocaleString('af-ZA')
-                };
-                
-                let submissions = JSON.parse(localStorage.getItem('attendanceSubmissions') || '[]');
-                
-                // Remove existing submission for this date/user
-                submissions = submissions.filter(sub => sub.key !== submission.key);
-                
-                // Add new submission
-                submissions.push(submission);
-                
-                localStorage.setItem('attendanceSubmissions', JSON.stringify(submissions));
-                
-                showMessage('attendanceMessage', 'Bywoning suksesvol gestoor!', 'success');
-                checkAlreadySubmitted();
-                
-            } catch (error) {
-                showMessage('attendanceMessage', 'Fout tydens stoor van data', 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'STUUR IN';
-            }
-        }
-        
-        function showMessage(elementId, message, type) {
-            const messageEl = document.getElementById(elementId);
-            messageEl.textContent = message;
-            messageEl.className = `status-message status-${type}`;
-            messageEl.style.display = 'block';
-            
-            setTimeout(() => {
-                messageEl.style.display = 'none';
-            }, 5000);
-        }
-        
-        function exportTodayToExcel() {
-            const today = new Date().toISOString().split('T')[0];
-            exportToExcel(today);
-        }
-        
-        function exportAllToExcel() {
-            exportToExcel();
-        }
-        
-        function exportToExcel(filterDate = null) {
-            const submissions = JSON.parse(localStorage.getItem('attendanceSubmissions') || '[]');
-            
-            let dataToExport = submissions;
-            if (filterDate) {
-                dataToExport = submissions.filter(sub => sub.date === filterDate);
-            }
-            
-            if (dataToExport.length === 0) {
-                alert('Geen data om te eksporteer nie');
-                return;
-            }
-            
-            const headers = [
-                'Naam', 'E-pos', 'Datum', 'Skooltyd In', 'Skooltyd Uit', 
-                'Buitemuurs In', 'Buitemuurs Uit', 'Akademiese In', 'Akademiese Uit', 
-                'Ingestuur Op'
-            ];
-            
-            const csvContent = [
-                headers.join(','),
-                ...dataToExport.map(sub => [
-                    `"${sub.name}"`,
-                    `"${sub.email}"`,
-                    `"${sub.date}"`,
-                    `"${sub.schoolTimeIn}"`,
-                    `"${sub.schoolTimeOut}"`,
-                    `"${sub.extraTimeIn}"`,
-                    `"${sub.extraTimeOut}"`,
-                    `"${sub.academicTimeIn}"`,
-                    `"${sub.academicTimeOut}"`,
-                    `"${sub.submittedAt}"`
-                ].join(','))
-            ].join('\n');
-            
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            
-            const fileName = filterDate ? 
-                `menlopark_bywoning_${filterDate}.csv` : 
-                `menlopark_bywoning_alle_${new Date().toISOString().split('T')[0]}.csv`;
-            
-            link.download = fileName;
-            link.click();
-            window.URL.revokeObjectURL(url);
-            
-            showMessage('attendanceMessage', `✅ ${dataToExport.length} rekords geëksporteer!`, 'success');
-        }
-        
-        function viewSubmissions() {
-            const submissions = JSON.parse(localStorage.getItem('attendanceSubmissions') || '[]');
-            
-            if (submissions.length === 0) {
-                alert('Geen inskrywings beskikbaar nie');
-                return;
-            }
-            
-            const recent = submissions
-                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-                .slice(0, 10)
-                .map(sub => `${sub.date} - ${sub.name} (${sub.submittedAt})`)
-                .join('\n');
-            
-            alert(`Laaste 10 inskrywings:\n\n${recent}`);
-        }
-        
-        function clearOldData() {
-            if (!confirm('Wis alle data ouer as 30 dae?\n\nHierdie aksie kan nie ongedaan gemaak word nie.')) {
-                return;
-            }
-            
-            const submissions = JSON.parse(localStorage.getItem('attendanceSubmissions') || '[]');
-            const thirtyDaysAgo = new Date();
-            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-            const cutoffDate = thirtyDaysAgo.toISOString().split('T')[0];
-            
-            const filtered = submissions.filter(sub => sub.date >= cutoffDate);
-            const removedCount = submissions.length - filtered.length;
-            
-            localStorage.setItem('attendanceSubmissions', JSON.stringify(filtered));
-            
-            alert(`${removedCount} ou rekords verwyder.\n${filtered.length} rekords behou.`);
-        }
-        
-        // Initialize when page loads
-        window.onload = init;
-    </script>
-</body>
-</html>
+            document.getElementByI
