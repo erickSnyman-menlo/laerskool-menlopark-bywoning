@@ -671,6 +671,19 @@
             alert(`Tydelike Wagwoord: ${TEMP_PASSWORD}\n\nKontak Erick Snyman vir 'n permanente wagwoord.`);
         }
         
+        function togglePassword() {
+            const passwordInput = document.getElementById('passwordInput');
+            const toggleBtn = document.getElementById('togglePasswordBtn');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.textContent = '👁️';
+            }
+        }
+        
         function login() {
             const name = document.getElementById('nameInput').value.trim();
             const email = document.getElementById('emailInput').value.trim().toLowerCase();
