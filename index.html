@@ -135,6 +135,25 @@
             color: #0c3f1c;
         }
         
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .checkbox-group label {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+            cursor: pointer;
+        }
+        
         .btn-login {
             width: 100%;
             background: linear-gradient(45deg, #0c3f1c, #2d5016);
@@ -148,6 +167,7 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-bottom: 10px;
         }
         
         .btn-login:hover {
@@ -155,17 +175,53 @@
             box-shadow: 0 8px 20px rgba(12, 63, 28, 0.3);
         }
         
+        .btn-register {
+            width: 100%;
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(108, 117, 125, 0.3);
+        }
+        
         .register-link {
             text-align: center;
             margin-top: 20px;
             color: #0c3f1c;
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: underline;
         }
         
         .forgot-password {
             text-align: center;
             margin-top: 15px;
+            color: #0c3f1c;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
+        /* Registration Form */
+        .registration-form {
+            padding: 0 40px 40px;
+            display: none;
+        }
+        
+        .back-to-login {
+            text-align: center;
+            margin-top: 20px;
             color: #0c3f1c;
             font-size: 1rem;
             cursor: pointer;
@@ -402,7 +458,7 @@
                 margin: 10px;
             }
             
-            .login-section, .attendance-form {
+            .login-section, .attendance-form, .registration-form {
                 padding: 20px;
             }
             
@@ -447,12 +503,54 @@
                 </div>
             </div>
             
+            <div class="checkbox-group">
+                <input type="checkbox" id="rememberMe">
+                <label for="rememberMe">Onthou my details</label>
+            </div>
+            
             <button class="btn-login" onclick="login()">MELD AAN</button>
             
-            <div class="register-link">Registreer hier</div>
+            <div class="register-link" onclick="showRegistration()">Registreer hier</div>
             <div class="forgot-password" onclick="showTempPassword()">Wagwoord vergeet?</div>
             
             <div id="loginMessage" class="status-message"></div>
+        </div>
+
+        <!-- Registration Screen -->
+        <div id="registrationScreen" class="registration-form">
+            <h2 class="login-title">Registreer</h2>
+            
+            <div class="form-group">
+                <input type="text" id="regNameInput" placeholder="Volle Naam" required>
+            </div>
+            
+            <div class="form-group">
+                <input type="email" id="regEmailInput" placeholder="E-pos adres" required>
+            </div>
+            
+            <div class="form-group">
+                <div class="password-container">
+                    <input type="password" id="regPasswordInput" placeholder="Skep Wagwoord" required>
+                    <button type="button" class="password-toggle" onclick="toggleRegPassword()" id="toggleRegPasswordBtn">
+                        👁️
+                    </button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="password-container">
+                    <input type="password" id="confirmPasswordInput" placeholder="Bevestig Wagwoord" required>
+                    <button type="button" class="password-toggle" onclick="toggleConfirmPassword()" id="toggleConfirmPasswordBtn">
+                        👁️
+                    </button>
+                </div>
+            </div>
+            
+            <button class="btn-register" onclick="register()">REGISTREER</button>
+            
+            <div class="back-to-login" onclick="showLogin()">Terug na Aanmeld</div>
+            
+            <div id="registrationMessage" class="status-message"></div>
         </div>
 
         <!-- Attendance Form -->
@@ -718,6 +816,7 @@
         function init() {
             generateDateButtons();
             updateCurrentDate();
+            loadRememberedCredentials();
             
             // Check if user is logged in
             const savedUser = localStorage.getItem('currentUser');
@@ -778,6 +877,25 @@
                 now.toLocaleDateString('af-ZA', options);
         }
         
+        function loadRememberedCredentials() {
+            const rememberedCredentials = localStorage.getItem('rememberedCredentials');
+            if (rememberedCredentials) {
+                const creds = JSON.parse(rememberedCredentials);
+                document.getElementById('nameInput').value = creds.name || '';
+                document.getElementById('emailInput').value = creds.email || '';
+                document.getElementById('rememberMe').checked = true;
+            }
+        }
+        
+        function saveCredentials(name, email) {
+            const rememberMe = document.getElementById('rememberMe').checked;
+            if (rememberMe) {
+                localStorage.setItem('rememberedCredentials', JSON.stringify({ name, email }));
+            } else {
+                localStorage.removeItem('rememberedCredentials');
+            }
+        }
+        
         function showTempPassword() {
             alert(`Tydelike Wagwoord: ${TEMP_PASSWORD}\n\nKontak Erick Snyman vir 'n permanente wagwoord.`);
         }
@@ -795,6 +913,99 @@
             }
         }
         
+        function toggleRegPassword() {
+            const passwordInput = document.getElementById('regPasswordInput');
+            const toggleBtn = document.getElementById('toggleRegPasswordBtn');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.textContent = '👁️';
+            }
+        }
+        
+        function toggleConfirmPassword() {
+            const passwordInput = document.getElementById('confirmPasswordInput');
+            const toggleBtn = document.getElementById('toggleConfirmPasswordBtn');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.textContent = '👁️';
+            }
+        }
+        
+        function showRegistration() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('registrationScreen').style.display = 'block';
+            document.getElementById('attendanceForm').style.display = 'none';
+        }
+        
+        function showLogin() {
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('registrationScreen').style.display = 'none';
+            document.getElementById('attendanceForm').style.display = 'none';
+        }
+        
+        function register() {
+            const name = document.getElementById('regNameInput').value.trim();
+            const email = document.getElementById('regEmailInput').value.trim().toLowerCase();
+            const password = document.getElementById('regPasswordInput').value;
+            const confirmPassword = document.getElementById('confirmPasswordInput').value;
+            
+            if (!name || !email || !password || !confirmPassword) {
+                showMessage('registrationMessage', 'Vul asseblief alle velde in', 'error');
+                return;
+            }
+            
+            if (!email.includes('@') || !email.includes('.')) {
+                showMessage('registrationMessage', 'Voer \'n geldige e-pos adres in', 'error');
+                return;
+            }
+            
+            if (password.length < 4) {
+                showMessage('registrationMessage', 'Wagwoord moet ten minste 4 karakters wees', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showMessage('registrationMessage', 'Wagwoorde stem nie ooreen nie', 'error');
+                return;
+            }
+            
+            // Check if user already exists
+            const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+            if (registeredUsers.some(user => user.email === email)) {
+                showMessage('registrationMessage', 'Hierdie e-pos adres is reeds geregistreer', 'error');
+                return;
+            }
+            
+            // Save new user
+            const newUser = {
+                name: name,
+                email: email,
+                password: password,
+                registeredAt: new Date().toISOString(),
+                isAdmin: ADMIN_EMAILS.includes(email)
+            };
+            
+            registeredUsers.push(newUser);
+            localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+            
+            showMessage('registrationMessage', 'Registrasie suksesvol! Jy kan nou aanmeld.', 'success');
+            
+            // Auto-fill login form and switch to login
+            setTimeout(() => {
+                document.getElementById('nameInput').value = name;
+                document.getElementById('emailInput').value = email;
+                showLogin();
+            }, 2000);
+        }
+        
         function login() {
             const name = document.getElementById('nameInput').value.trim();
             const email = document.getElementById('emailInput').value.trim().toLowerCase();
@@ -810,28 +1021,237 @@
                 return;
             }
             
-            if (password !== TEMP_PASSWORD && password.length < 4) {
-                showMessage('loginMessage', 'Ongeldige wagwoord', 'error');
+            // Check registered users first
+            const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+            const registeredUser = registeredUsers.find(user => user.email === email);
+            
+            let isValidLogin = false;
+            
+            if (registeredUser) {
+                // Check registered user password
+                if (registeredUser.password === password && registeredUser.name === name) {
+                    isValidLogin = true;
+                }
+            } else {
+                // Fallback to temp password for non-registered users
+                if (password === TEMP_PASSWORD) {
+                    isValidLogin = true;
+                }
+            }
+            
+            if (!isValidLogin) {
+                showMessage('loginMessage', 'Ongeldige aanmeld details', 'error');
                 return;
             }
             
-            // Create user
+            // Save credentials if remember me is checked
+            saveCredentials(name, email);
+            
+            // Create user object
             currentUser = {
                 name: name,
                 email: email,
-                isAdmin: ADMIN_EMAILS.includes(email)
+                isAdmin: ADMIN_EMAILS.includes(email),
+                isRegistered: !!registeredUser
             };
             
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             showAttendanceForm();
+            showMessage('loginMessage', 'Suksesvol aangemeld!', 'success');
         }
         
         function logout() {
             currentUser = null;
             localStorage.removeItem('currentUser');
-            document.getElementById('loginScreen').style.display = 'block';
-            document.getElementById('attendanceForm').style.display = 'none';
+            showLogin();
             
-            // Clear form
-            document.getElementById('nameInput').value = '';
-            document.getElementByI
+            // Only clear form if remember me is not checked
+            if (!document.getElementById('rememberMe').checked) {
+                document.getElementById('nameInput').value = '';
+                document.getElementById('emailInput').value = '';
+            }
+            document.getElementById('passwordInput').value = '';
+        }
+        
+        function showAttendanceForm() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('registrationScreen').style.display = 'none';
+            document.getElementById('attendanceForm').style.display = 'block';
+            document.getElementById('welcomeName').textContent = `Welkom ${currentUser.name}`;
+            
+            if (currentUser.isAdmin) {
+                document.getElementById('adminSection').style.display = 'block';
+            }
+            
+            checkAlreadySubmitted();
+        }
+        
+        function checkAlreadySubmitted() {
+            const submissions = JSON.parse(localStorage.getItem('attendanceSubmissions') || '[]');
+            const key = `${currentUser.email}_${selectedDate}`;
+            const alreadySubmitted = submissions.some(sub => sub.key === key);
+            
+            const submittedDiv = document.getElementById('alreadySubmitted');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (alreadySubmitted) {
+                submittedDiv.style.display = 'block';
+                submitBtn.textContent = 'HERSTEL INSKRYWING';
+                submitBtn.style.background = 'linear-gradient(45deg, #ffc107, #e0a800)';
+            } else {
+                submittedDiv.style.display = 'none';
+                submitBtn.textContent = 'STUUR IN';
+                submitBtn.style.background = 'linear-gradient(45deg, #0c3f1c, #2d5016)';
+            }
+        }
+        
+        function submitAttendance() {
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="loading"></div>Besig om te stoor...';
+            
+            try {
+                const submission = {
+                    key: `${currentUser.email}_${selectedDate}`,
+                    name: currentUser.name,
+                    email: currentUser.email,
+                    date: selectedDate,
+                    schoolTimeIn: `${document.getElementById('schoolInHour').value}:${document.getElementById('schoolInMin').value}`,
+                    schoolTimeOut: `${document.getElementById('schoolOutHour').value}:${document.getElementById('schoolOutMin').value}`,
+                    extraTimeIn: `${document.getElementById('extraInHour').value}:${document.getElementById('extraInMin').value}`,
+                    extraTimeOut: `${document.getElementById('extraOutHour').value}:${document.getElementById('extraOutMin').value}`,
+                    academicTimeIn: `${document.getElementById('academicInHour').value}:${document.getElementById('academicInMin').value}`,
+                    academicTimeOut: `${document.getElementById('academicOutHour').value}:${document.getElementById('academicOutMin').value}`,
+                    timestamp: new Date().toISOString(),
+                    submittedAt: new Date().toLocaleString('af-ZA')
+                };
+                
+                let submissions = JSON.parse(localStorage.getItem('attendanceSubmissions') || '[]');
+                
+                // Remove existing submission for this date/user
+                submissions = submissions.filter(sub => sub.key !== submission.key);
+                
+                // Add new submission
+                submissions.push(submission);
+                
+                localStorage.setItem('attendanceSubmissions', JSON.stringify(submissions));
+                
+                showMessage('attendanceMessage', 'Bywoning suksesvol gestoor!', 'success');
+                checkAlreadySubmitted();
+                
+            } catch (error) {
+                showMessage('attendanceMessage', 'Fout tydens stoor van data', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'STUUR IN';
+            }
+        }
+        
+        function showMessage(elementId, message, type) {
+            const messageEl = document.getElementById(elementId);
+            messageEl.textContent = message;
+            messageEl.className = `status-message status-${type}`;
+            messageEl.style.display = 'block';
+            
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 5000);
+        }
+        
+        function exportTodayToExcel() {
+            const today = new Date().toISOString().split('T')[0];
+            exportToExcel(today);
+        }
+        
+        function exportAllToExcel() {
+            exportToExcel();
+        }
+        
+        function exportToExcel(filterDate = null) {
+            const submissions = JSON.parse(localStorage.getItem('attendanceSubmissions') || '[]');
+            
+            let dataToExport = submissions;
+            if (filterDate) {
+                dataToExport = submissions.filter(sub => sub.date === filterDate);
+            }
+            
+            if (dataToExport.length === 0) {
+                alert('Geen data om te eksporteer nie');
+                return;
+            }
+            
+            const headers = [
+                'Naam', 'E-pos', 'Datum', 'Skooltyd In', 'Skooltyd Uit', 
+                'Buitemuurs In', 'Buitemuurs Uit', 'Akademiese In', 'Akademiese Uit', 
+                'Ingestuur Op'
+            ];
+            
+            const csvContent = [
+                headers.join(','),
+                ...dataToExport.map(sub => [
+                    `"${sub.name}"`,
+                    `"${sub.email}"`,
+                    `"${sub.date}"`,
+                    `"${sub.schoolTimeIn}"`,
+                    `"${sub.schoolTimeOut}"`,
+                    `"${sub.extraTimeIn}"`,
+                    `"${sub.extraTimeOut}"`,
+                    `"${sub.academicTimeIn}"`,
+                    `"${sub.academicTimeOut}"`,
+                    `"${sub.submittedAt}"`
+                ].join(','))
+            ].join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            
+            const fileName = filterDate ? 
+                `menlopark_bywoning_${filterDate}.csv` : 
+                `menlopark_bywoning_alle_${new Date().toISOString().split('T')[0]}.csv`;
+            
+            link.download = fileName;
+            link.click();
+            window.URL.revokeObjectURL(url);
+            
+            showMessage('attendanceMessage', `✅ ${dataToExport.length} rekords geëksporteer!`, 'success');
+        }
+        
+        function viewSubmissions() {
+            const submissions = JSON.parse(localStorage.getItem('attendanceSubmissions') || '[]');
+            
+            if (submissions.length === 0) {
+                alert('Geen inskrywings beskikbaar nie');
+                return;
+            }
+            
+            const recent = submissions
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                .slice(0, 10)
+                .map(sub => `${sub.date} - ${sub.name} (${sub.submittedAt})`)
+                .join('\n');
+            
+            alert(`Laaste 10 inskrywings:\n\n${recent}`);
+        }
+        
+        function clearOldData() {
+            if (!confirm('Wis alle data ouer as 30 dae?\n\nHierdie aksie kan nie ongedaan gemaak word nie.')) {
+                return;
+            }
+            
+            const submissions = JSON.parse(localStorage.getItem('attendanceSubmissions') || '[]');
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            const cutoffDate = thirtyDaysAgo.toISOString().split('T')[0];
+            
+            const filtered = submissions.filter(sub => sub.date >= cutoffDate);
+            const removedCount = submissions.length - filtered.length;
+            
+            localStorage.setItem('attendanceSubmissions', JSON.stringify(filtered));
+            
+            alert(`${removedCount} ou rekords verwyder.\n${filtered.length} rekords behou.`);
+        }
+        
+        // Initialize when page loads
+        window.onload = init;
